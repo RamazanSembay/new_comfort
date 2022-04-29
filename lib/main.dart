@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:new_comfort/provider/cart_provider.dart';
 import 'package:new_comfort/provider/login_provider.dart';
 import 'package:new_comfort/views/home_view.dart';
 import 'package:new_comfort/views/welcome_view.dart';
@@ -25,6 +26,9 @@ class Application extends StatelessWidget {
         ),
         ChangeNotifierProvider<RegisterProvider>(
           create: (context) => (RegisterProvider()),
+        ),
+        ChangeNotifierProvider<CartProvider>(
+          create: (context) => (CartProvider()),
         ),
       ],
       child: GetMaterialApp(

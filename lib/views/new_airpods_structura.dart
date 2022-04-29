@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'new_airpods_category_structura.dart';
 
 class NewAirpodsStructura extends StatelessWidget {
   @override
@@ -57,13 +61,23 @@ class NewAirpodsStructura extends StatelessWidget {
                             fontFamily: 'OpenSans',
                           ),
                         ),
-                        Text(
-                          'Барлығы',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff888888),
-                            fontFamily: 'OpenSans',
+                        InkWell(
+                          onTap: () {
+                            Get.to(NewAirpodsCategoryStructura(
+                              title: 'Apple',
+                              future: FirebaseFirestore.instance
+                                  .collection('Apple Құлаққаптары')
+                                  .get(),
+                            ));
+                          },
+                          child: Text(
+                            'Барлығы',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff888888),
+                              fontFamily: 'OpenSans',
+                            ),
                           ),
                         ),
                       ],
@@ -101,13 +115,23 @@ class NewAirpodsStructura extends StatelessWidget {
                             fontFamily: 'OpenSans',
                           ),
                         ),
-                        Text(
-                          'Барлығы',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff888888),
-                            fontFamily: 'OpenSans',
+                        InkWell(
+                          onTap: () {
+                            Get.to(NewAirpodsCategoryStructura(
+                              title: 'Xiaomi',
+                              future: FirebaseFirestore.instance
+                                  .collection('Xiaomi Құлаққаптары')
+                                  .get(),
+                            ));
+                          },
+                          child: Text(
+                            'Барлығы',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff888888),
+                              fontFamily: 'OpenSans',
+                            ),
                           ),
                         ),
                       ],

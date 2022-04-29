@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/cart_provider.dart';
 
 class NewBasketStructura extends StatefulWidget {
   @override
@@ -10,11 +13,24 @@ class NewBasketStructura extends StatefulWidget {
 }
 
 class _NewBasketStructuraState extends State<NewBasketStructura> {
+  int basket_quantity = 1;
   @override
   Widget build(BuildContext context) {
-    int basket_quantity = 1;
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+    cartProvider.getCartData();
 
-    return Container(   
+    int totalPrice = cartProvider.subTotal();
+    int quantity = cartProvider.subTotal1();
+
+    if (cartProvider.getCartList.isEmpty) {
+      setState(() {
+        totalPrice = 0;
+      });
+    }
+
+    var formatter = NumberFormat('#,###');
+
+    return Container(
       child: ListView(
         physics: BouncingScrollPhysics(),
         children: [
