@@ -8,12 +8,16 @@ import 'package:provider/provider.dart';
 import '../provider/cart_provider.dart';
 
 class NewBasketStructura extends StatefulWidget {
+  final String id;
+
+  const NewBasketStructura({Key key, this.id}) : super(key: key);
   @override
   State<NewBasketStructura> createState() => _NewBasketStructuraState();
 }
 
 class _NewBasketStructuraState extends State<NewBasketStructura> {
   int basket_quantity = 1;
+
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
@@ -92,7 +96,7 @@ class _NewBasketStructuraState extends State<NewBasketStructura> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Себетте: ' + ' тауар',
+                                'Себетте: ' + '${quantity}' ' тауар',
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
@@ -101,7 +105,9 @@ class _NewBasketStructuraState extends State<NewBasketStructura> {
                                 ),
                               ),
                               Text(
-                                'Барлығы: ' + '' + ' ₸',
+                                'Барлығы: ' +
+                                    '${formatter.format(totalPrice.toInt()) + ' ₸'}'
+                                        .replaceAll(',', ' '),
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
@@ -141,91 +147,209 @@ class _NewBasketStructuraState extends State<NewBasketStructura> {
               ),
             ],
           ),
-          StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('Менің себетім')
-                  .doc(FirebaseAuth.instance.currentUser.uid)
-                  .collection('Менің себетім')
-                  .snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Something went wrong');
-                }
+          cartProvider.getCartList.isEmpty
+              ? Center(
+                  child: Text(
+                    'Жоқ',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff444444),
+                      fontFamily: 'OpenSans',
+                    ),
+                  ),
+                )
+              : Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: double.infinity,
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: cartProvider.getCartList.length,
+                    itemBuilder: (context, index) {
+                      var data = cartProvider.cartList[index];
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                }
+                      void quantityFunction() {
+                        FirebaseFirestore.instance
+                            .collection('Менің себетім')
+                            .doc(FirebaseAuth.instance.currentUser.uid)
+                            .collection('Менің себетім')
+                            .doc(data.id)
+                            .update({
+                          'Количество': basket_quantity,
+                        });
+                      }
 
-                return snapshot.data.docs.isEmpty
-                    ? Center(
-                        child: Text(
-                          'Жоқ',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xff444444),
-                            fontFamily: 'OpenSans',
-                          ),
-                        ),
-                      )
-                    : Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: double.infinity,
-                        child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          itemCount: snapshot.data.docs.length,
-                          itemBuilder: (context, index) {
-                            var data = snapshot.data.docs[index];
-
-                            void quantityFunction() {
-                              FirebaseFirestore.instance
-                                  .collection('Менің себетім')
-                                  .doc(FirebaseAuth.instance.currentUser.uid)
-                                  .collection('Менің себетім')
-                                  .doc(data.id)
-                                  .update({
-                                'Количество': basket_quantity,
-                              });
-                            }
-
-                            return BasketProduct(
-                              name: data['Название'],
-                              image: data['Картинка'],
-                              price: data['Цена'],
-                              quantity: data['Количество'],
-                              basketdelete: () {
-                                FirebaseFirestore.instance
-                                    .collection('Менің себетім')
-                                    .doc(FirebaseAuth.instance.currentUser.uid)
-                                    .collection('Менің себетім')
-                                    .doc(data.id)
-                                    .delete();
-                              },
-                              basketquantityadd: () {
-                                setState(() {
-                                  basket_quantity++;
-                                  quantityFunction();
-                                  print(basket_quantity);
-                                });
-                              },
-                              basketquantityremove: () {
-                                if (basket_quantity > 1) {
-                                  setState(() {
-                                    basket_quantity--;
-                                    quantityFunction();
-                                    print(basket_quantity);
-                                  });
-                                }
-                              },
-                            );
-                          },
-                        ),
+                      return BasketProduct(
+                        name: data.name,
+                        image: data.image,
+                        price: data.price,
+                        quantity: data.quantity,
+                        basketdelete: () {
+                          FirebaseFirestore.instance
+                              .collection('Менің себетім')
+                              .doc(FirebaseAuth.instance.currentUser.uid)
+                              .collection('Менің себетім')
+                              .doc(data.id)
+                              .delete();
+                        },
+                        basketquantityadd: () {
+                          setState(() {
+                            basket_quantity++;
+                            quantityFunction();
+                            print(data.id);
+                          });
+                        },
+                        basketquantityremove: () {
+                          if (basket_quantity > 1) {
+                            setState(() {
+                              basket_quantity--;
+                              quantityFunction();
+                            });
+                          }
+                        },
                       );
-              }),
+                    },
+                  ),
+                ),
+          // StreamBuilder<QuerySnapshot>(
+          //   stream: FirebaseFirestore.instance
+          //       .collection('Менің себетім')
+          //       .doc(FirebaseAuth.instance.currentUser.uid)
+          //       .collection('Менің себетім')
+          //       .snapshots(),
+          //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          //     if (snapshot.hasError) {
+          //       return Text('Something went wrong');
+          //     }
+
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: 40),
+          //         child: Center(child: CircularProgressIndicator()),
+          //       );
+          //     }
+
+          //     return ListView.builder(
+          //       physics: BouncingScrollPhysics(),
+          //       scrollDirection: Axis.vertical,
+          //       itemCount: snapshot.data.docs.length,
+          //       itemBuilder: (context, index) {
+          //         var data = snapshot.data.docs[index];
+
+          //         void quantityFunction() {
+          //           FirebaseFirestore.instance
+          //               .collection('Менің себетім')
+          //               .doc(FirebaseAuth.instance.currentUser.uid)
+          //               .collection('Менің себетім')
+          //               .doc(data.id)
+          //               .update({
+          //             'Количество': basket_quantity,
+          //           });
+          //         }
+
+          //         return BasketProduct(
+          //           name: data['Название'],
+          //           image: data['Картинка'],
+          //           price: data['Цена'],
+          //           quantity: data['Количество'],
+          //           basketdelete: () {
+          //             FirebaseFirestore.instance
+          //                 .collection('Менің себетім')
+          //                 .doc(FirebaseAuth.instance.currentUser.uid)
+          //                 .collection('Менің себетім')
+          //                 .doc(data.id)
+          //                 .delete();
+          //           },
+          //           basketquantityadd: () {
+          //             setState(() {
+          //               basket_quantity++;
+          //               quantityFunction();
+          //               print(basket_quantity);
+          //             });
+          //           },
+          //           basketquantityremove: () {
+          //             if (basket_quantity > 1) {
+          //               setState(() {
+          //                 basket_quantity--;
+          //                 quantityFunction();
+          //                 print(basket_quantity);
+          //               });
+          //             }
+          //           },
+          //         );
+          //       },
+          //     );
+          //   },
+
+          //   //   return snapshot.data.docs.isEmpty
+          //   //       ? Center(
+          //   //           child: Text(
+          //   //             'Жоқ',
+          //   //             style: TextStyle(
+          //   //               fontSize: 15,
+          //   //               fontWeight: FontWeight.w600,
+          //   //               color: Color(0xff444444),
+          //   //               fontFamily: 'OpenSans',
+          //   //             ),
+          //   //           ),
+          //   //         )
+          //   //       : Container(
+          //   //           height: MediaQuery.of(context).size.height,
+          //   //           width: double.infinity,
+          //   //           child: ListView.builder(
+          //   //             physics: BouncingScrollPhysics(),
+          //   //             scrollDirection: Axis.vertical,
+          //   //             itemCount: snapshot.data.docs.length,
+          //   //             itemBuilder: (context, index) {
+          //   //               var data = snapshot.data.docs[index];
+
+          //   //               void quantityFunction() {
+          //   //                 FirebaseFirestore.instance
+          //   //                     .collection('Менің себетім')
+          //   //                     .doc(FirebaseAuth.instance.currentUser.uid)
+          //   //                     .collection('Менің себетім')
+          //   //                     .doc(data.id)
+          //   //                     .update({
+          //   //                   'Количество': basket_quantity,
+          //   //                 });
+          //   //               }
+
+          //   //               return BasketProduct(
+          //   //                 name: data['Название'],
+          //   //                 image: data['Картинка'],
+          //   //                 price: data['Цена'],
+          //   //                 quantity: data['Количество'],
+          //   //                 basketdelete: () {
+          //   //                   FirebaseFirestore.instance
+          //   //                       .collection('Менің себетім')
+          //   //                       .doc(FirebaseAuth.instance.currentUser.uid)
+          //   //                       .collection('Менің себетім')
+          //   //                       .doc(data.id)
+          //   //                       .delete();
+          //   //                 },
+          //   //                 basketquantityadd: () {
+          //   //                   setState(() {
+          //   //                     basket_quantity++;
+          //   //                     quantityFunction();
+          //   //                     print(basket_quantity);
+          //   //                   });
+          //   //                 },
+          //   //                 basketquantityremove: () {
+          //   //                   if (basket_quantity > 1) {
+          //   //                     setState(() {
+          //   //                       basket_quantity--;
+          //   //                       quantityFunction();
+          //   //                       print(basket_quantity);
+          //   //                     });
+          //   //                   }
+          //   //                 },
+          //   //               );
+          //   //             },
+          //   //           ),
+          //   //         );
+          //   // },
+          // ),
         ],
       ),
     );
@@ -261,6 +385,19 @@ class BasketProduct extends StatefulWidget {
 }
 
 class _BasketProductState extends State<BasketProduct> {
+  int basket_quantity = 1;
+
+  void quantityFunction() {
+    FirebaseFirestore.instance
+        .collection('Менің себетім')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection('Менің себетім')
+        .doc(widget.id)
+        .update({
+      'Количество': basket_quantity,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var formatter = NumberFormat('#,###');
@@ -421,6 +558,144 @@ class _BasketProductState extends State<BasketProduct> {
     );
   }
 }
+
+// StreamBuilder<QuerySnapshot>(
+//             stream: FirebaseFirestore.instance
+//                 .collection('Менің себетім')
+//                 .doc(FirebaseAuth.instance.currentUser.uid)
+//                 .collection('Менің себетім')
+//                 .snapshots(),
+//             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+//               if (snapshot.hasError) {
+//                 return Text('Something went wrong');
+//               }
+
+//               if (snapshot.connectionState == ConnectionState.waiting) {
+//                 return Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 40),
+//                   child: Center(child: CircularProgressIndicator()),
+//                 );
+//               }
+
+//               return snapshot.data.docs.isEmpty
+//                   ? Center(
+//                       child: Text(
+//                         'Жоқ',
+//                         style: TextStyle(
+//                           fontSize: 15,
+//                           fontWeight: FontWeight.w600,
+//                           color: Color(0xff444444),
+//                           fontFamily: 'OpenSans',
+//                         ),
+//                       ),
+//                     )
+//                   : Container(
+//                       height: MediaQuery.of(context).size.height,
+//                       width: double.infinity,
+//                       child: ListView.builder(
+//                         physics: BouncingScrollPhysics(),
+//                         scrollDirection: Axis.vertical,
+//                         itemCount: snapshot.data.docs.length,
+//                         itemBuilder: (context, index) {
+//                           var data = snapshot.data.docs[index];
+
+//                           void quantityFunction() {
+//                             FirebaseFirestore.instance
+//                                 .collection('Менің себетім')
+//                                 .doc(FirebaseAuth.instance.currentUser.uid)
+//                                 .collection('Менің себетім')
+//                                 .doc(data.id)
+//                                 .update({
+//                               'Количество': basket_quantity,
+//                             });
+//                           }
+
+//                           return BasketProduct(
+//                             name: data['Название'],
+//                             image: data['Картинка'],
+//                             price: data['Цена'],
+//                             quantity: data['Количество'],
+//                             basketdelete: () {
+//                               FirebaseFirestore.instance
+//                                   .collection('Менің себетім')
+//                                   .doc(FirebaseAuth.instance.currentUser.uid)
+//                                   .collection('Менің себетім')
+//                                   .doc(data.id)
+//                                   .delete();
+//                             },
+//                             basketquantityadd: () {
+//                               setState(() {
+//                                 basket_quantity++;
+//                                 quantityFunction();
+//                                 print(basket_quantity);
+//                               });
+//                             },
+//                             basketquantityremove: () {
+//                               if (basket_quantity > 1) {
+//                                 setState(() {
+//                                   basket_quantity--;
+//                                   quantityFunction();
+//                                   print(basket_quantity);
+//                                 });
+//                               }
+//                             },
+//                           );
+//                         },
+//                       ),
+//                     );
+//             },
+//           ),
+
+// ListView.builder(
+//                           physics: BouncingScrollPhysics(),
+//                           scrollDirection: Axis.vertical,
+//                           itemCount: snapshot.data.docs.length,
+//                           itemBuilder: (context, index) {
+//                             var data = snapshot.data.docs[index];
+
+//                             void quantityFunction() {
+//                               FirebaseFirestore.instance
+//                                   .collection('Менің себетім')
+//                                   .doc(FirebaseAuth.instance.currentUser.uid)
+//                                   .collection('Менің себетім')
+//                                   .doc(data.id)
+//                                   .update({
+//                                 'Количество': basket_quantity,
+//                               });
+//                             }
+
+//                             return BasketProduct(
+//                               name: data['Название'],
+//                               image: data['Картинка'],
+//                               price: data['Цена'],
+//                               quantity: data['Количество'],
+//                               basketdelete: () {
+//                                 FirebaseFirestore.instance
+//                                     .collection('Менің себетім')
+//                                     .doc(FirebaseAuth.instance.currentUser.uid)
+//                                     .collection('Менің себетім')
+//                                     .doc(data.id)
+//                                     .delete();
+//                               },
+//                               basketquantityadd: () {
+//                                 setState(() {
+//                                   basket_quantity++;
+//                                   quantityFunction();
+//                                   print(basket_quantity);
+//                                 });
+//                               },
+//                               basketquantityremove: () {
+//                                 if (basket_quantity > 1) {
+//                                   setState(() {
+//                                     basket_quantity--;
+//                                     quantityFunction();
+//                                     print(basket_quantity);
+//                                   });
+//                                 }
+//                               },
+//                             );
+//                           },
+//                         )
 
 // Column(
 //                         children: [
