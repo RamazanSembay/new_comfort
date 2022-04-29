@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:new_comfort/views/new_phone_category_structura.dart';
 
 class NewPhoneStructura extends StatelessWidget {
   @override
@@ -57,13 +60,23 @@ class NewPhoneStructura extends StatelessWidget {
                             fontFamily: 'OpenSans',
                           ),
                         ),
-                        Text(
-                          'Барлығы',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff888888),
-                            fontFamily: 'OpenSans',
+                        InkWell(
+                          onTap: () {
+                            Get.to(NewPhoneCategoryStructura(
+                              title: 'Apple',
+                              future: FirebaseFirestore.instance
+                                  .collection('Apple Телефондары')
+                                  .get(),
+                            ));
+                          },
+                          child: Text(
+                            'Барлығы',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff888888),
+                              fontFamily: 'OpenSans',
+                            ),
                           ),
                         ),
                       ],
@@ -101,13 +114,23 @@ class NewPhoneStructura extends StatelessWidget {
                             fontFamily: 'OpenSans',
                           ),
                         ),
-                        Text(
-                          'Барлығы',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff888888),
-                            fontFamily: 'OpenSans',
+                        InkWell(
+                          onTap: () {
+                            Get.to(NewPhoneCategoryStructura(
+                              title: 'Samsung',
+                              future: FirebaseFirestore.instance
+                                  .collection('Samsung Телефондары')
+                                  .get(),
+                            ));
+                          },
+                          child: Text(
+                            'Барлығы',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff888888),
+                              fontFamily: 'OpenSans',
+                            ),
                           ),
                         ),
                       ],
@@ -145,13 +168,23 @@ class NewPhoneStructura extends StatelessWidget {
                             fontFamily: 'OpenSans',
                           ),
                         ),
-                        Text(
-                          'Барлығы',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff888888),
-                            fontFamily: 'OpenSans',
+                        InkWell(
+                          onTap: () {
+                            Get.to(NewPhoneCategoryStructura(
+                              title: 'Realme',
+                              future: FirebaseFirestore.instance
+                                  .collection('Realme Телефондары')
+                                  .get(),
+                            ));
+                          },
+                          child: Text(
+                            'Барлығы',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff888888),
+                              fontFamily: 'OpenSans',
+                            ),
                           ),
                         ),
                       ],
@@ -189,13 +222,23 @@ class NewPhoneStructura extends StatelessWidget {
                             fontFamily: 'OpenSans',
                           ),
                         ),
-                        Text(
-                          'Барлығы',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff888888),
-                            fontFamily: 'OpenSans',
+                        InkWell(
+                          onTap: () {
+                            Get.to(NewPhoneCategoryStructura(
+                              title: 'OnePlus',
+                              future: FirebaseFirestore.instance
+                                  .collection('OnePlus Телефондары')
+                                  .get(),
+                            ));
+                          },
+                          child: Text(
+                            'Барлығы',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff888888),
+                              fontFamily: 'OpenSans',
+                            ),
                           ),
                         ),
                       ],

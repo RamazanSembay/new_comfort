@@ -81,78 +81,79 @@ class _NewFavoriteStructuraState extends State<NewFavoriteStructura> {
               Padding(
                 padding: EdgeInsets.only(left: 20, right: 20, bottom: 15),
                 child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('Маған ұнағандар')
-                        .doc(FirebaseAuth.instance.currentUser.uid)
-                        .collection('Маған ұнағандар')
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Something went wrong');
-                      }
+                  stream: FirebaseFirestore.instance
+                      .collection('Маған ұнағандар')
+                      .doc(FirebaseAuth.instance.currentUser.uid)
+                      .collection('Маған ұнағандар')
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong');
+                    }
 
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
 
-                      return snapshot.data.docs.isEmpty
-                          ? Center(
-                              child: Text(
-                                'Жоқ',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff444444),
-                                  fontFamily: 'OpenSans',
-                                ),
+                    return snapshot.data.docs.isEmpty
+                        ? Center(
+                            child: Text(
+                              'Жоқ',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xff444444),
+                                fontFamily: 'OpenSans',
                               ),
-                            )
-                          : Container(
-                              height: MediaQuery.of(context).size.height,
-                              width: double.infinity,
-                              child: ListView.builder(
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                itemCount: snapshot.data.docs.length,
-                                itemBuilder: (context, index) {
-                                  var data = snapshot.data.docs[index];
-                                  return FavoriteProduct(
-                                    name: data['Название'],
-                                    image: data['Картинка'],
-                                    price: data['Цена'],
-                                    favoriteadd: () {
-                                      FirebaseFirestore.instance
-                                          .collection('Менің себетім')
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser.uid)
-                                          .collection('Менің себетім')
-                                          .doc(data.id)
-                                          .set({
-                                        'Id': data.id,
-                                        'Название': data['Название'],
-                                        'Картинка': data['Картинка'],
-                                        'Цена': data['Цена'],
-                                        'Модель': data['Модель'],
-                                        'Количество': 1
-                                      });
-                                    },
-                                    favoritedelete: () {
-                                      FirebaseFirestore.instance
-                                          .collection('Маған ұнағандар')
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser.uid)
-                                          .collection('Маған ұнағандар')
-                                          .doc(data.id)
-                                          .delete();
-                                    },
-                                  );
-                                },
-                              ),
-                            );
-                    }),
+                            ),
+                          )
+                        : Container(
+                            height: MediaQuery.of(context).size.height,
+                            width: double.infinity,
+                            child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data.docs.length,
+                              itemBuilder: (context, index) {
+                                var data = snapshot.data.docs[index];
+                                return FavoriteProduct(
+                                  name: data['Название'],
+                                  image: data['Картинка'],
+                                  price: data['Цена'],
+                                  favoriteadd: () {
+                                    FirebaseFirestore.instance
+                                        .collection('Менің себетім')
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser.uid)
+                                        .collection('Менің себетім')
+                                        .doc(data.id)
+                                        .set({
+                                      'Id': data.id,
+                                      'Название': data['Название'],
+                                      'Картинка': data['Картинка'],
+                                      'Цена': data['Цена'],
+                                      'Модель': data['Модель'],
+                                      'Количество': 1
+                                    });
+                                  },
+                                  favoritedelete: () {
+                                    FirebaseFirestore.instance
+                                        .collection('Маған ұнағандар')
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser.uid)
+                                        .collection('Маған ұнағандар')
+                                        .doc(data.id)
+                                        .delete();
+                                  },
+                                );
+                              },
+                            ),
+                          );
+                  },
+                ),
               ),
             ],
           ),

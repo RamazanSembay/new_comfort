@@ -537,7 +537,7 @@ class AppleProduct extends StatelessWidget {
                     image,
                     height: 90,
                     width: 90,
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.scaleDown,
                   ),
                 ),
                 Container(

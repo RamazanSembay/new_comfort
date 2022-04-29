@@ -42,7 +42,6 @@ class Application extends StatelessWidget {
             }
           },
         ),
-        builder: EasyLoading.init(),
       ),
     );
   }
