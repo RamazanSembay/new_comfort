@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/cart_provider.dart';
+import 'new_continue_structura.dart';
+
+
 
 class NewBasketStructura extends StatefulWidget {
   final String id;
@@ -117,26 +121,32 @@ class _NewBasketStructuraState extends State<NewBasketStructura> {
                               ),
                             ],
                           ),
-                          Container(
-                            height: 50,
-                            width: 200,
-                            decoration: BoxDecoration(
-                              color: Color(0xff444444),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Жалғастыру',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                    fontFamily: 'OpenSans',
+                          InkWell(
+                            onTap: () {
+                              print('Continue');
+                              Get.to(NewContinueStructura());
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                color: Color(0xff444444),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Жалғастыру',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      fontFamily: 'OpenSans',
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ],
