@@ -41,8 +41,6 @@ class _HomeStructuraTestState extends State<HomeStructuraTest> {
     });
     return result;
   }
-   
- 
 
   @override
   Widget build(BuildContext context) {

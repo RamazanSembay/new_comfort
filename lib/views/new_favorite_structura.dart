@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
 
@@ -138,6 +139,22 @@ class _NewFavoriteStructuraState extends State<NewFavoriteStructura> {
                                       'Модель': data['Модель'],
                                       'Количество': 1
                                     });
+                                    Get.snackbar(
+                                      "Себет",
+                                      "Себетке салдым",
+                                      icon:
+                                          Icon(Icons.send, color: Colors.white),
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Color(0xff444444),
+                                      borderRadius: 5,
+                                      margin: EdgeInsets.all(15),
+                                      colorText: Colors.white,
+                                      duration: Duration(seconds: 3),
+                                      isDismissible: true,
+                                      dismissDirection:
+                                          DismissDirection.horizontal,
+                                      forwardAnimationCurve: Curves.easeOutBack,
+                                    );
                                   },
                                   favoritedelete: () {
                                     FirebaseFirestore.instance
@@ -147,6 +164,23 @@ class _NewFavoriteStructuraState extends State<NewFavoriteStructura> {
                                         .collection('Маған ұнағандар')
                                         .doc(data.id)
                                         .delete();
+
+                                    Get.snackbar(
+                                      "Ұнаған",
+                                      "Өшірдім",
+                                      icon:
+                                          Icon(Icons.send, color: Colors.white),
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Color(0xff444444),
+                                      borderRadius: 5,
+                                      margin: EdgeInsets.all(15),
+                                      colorText: Colors.white,
+                                      duration: Duration(seconds: 3),
+                                      isDismissible: true,
+                                      dismissDirection:
+                                          DismissDirection.horizontal,
+                                      forwardAnimationCurve: Curves.easeOutBack,
+                                    );
                                   },
                                 );
                               },

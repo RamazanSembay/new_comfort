@@ -9,8 +9,6 @@ import 'package:provider/provider.dart';
 import '../provider/cart_provider.dart';
 import 'new_continue_structura.dart';
 
-
-
 class NewBasketStructura extends StatefulWidget {
   final String id;
 
@@ -42,125 +40,142 @@ class _NewBasketStructuraState extends State<NewBasketStructura> {
       child: ListView(
         physics: BouncingScrollPhysics(),
         children: [
-          Column(
-            children: [
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 40, bottom: 30),
-                child: Container(
-                  height: 200,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xff8BCAC0).withOpacity(0.5),
-                        blurRadius: 20,
-                        spreadRadius: 0,
-                        offset: Offset(0, 0),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  'icon/store_1.png',
-                                  height: 20,
-                                  width: 20,
-                                  fit: BoxFit.cover,
-                                  color: Color(0xff444444),
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                'Менің себетім',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff444444),
-                                  fontFamily: 'OpenSans',
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Себетте: ' + '${quantity}' ' тауар',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff444444),
-                                  fontFamily: 'OpenSans',
-                                ),
-                              ),
-                              Text(
-                                'Барлығы: ' +
-                                    '${formatter.format(totalPrice.toInt()) + ' ₸'}'
-                                        .replaceAll(',', ' '),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff444444),
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                            ],
-                          ),
-                          InkWell(
-                            onTap: () {
-                              print('Continue');
-                              Get.to(NewContinueStructura());
-                            },
-                            child: Container(
-                              height: 50,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                color: Color(0xff444444),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Жалғастыру',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      fontFamily: 'OpenSans',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
           cartProvider.getCartList.isEmpty
               ? Center(
                   child: Text(
                     'Жоқ',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff444444),
+                      fontFamily: 'OpenSans',
+                    ),
+                  ),
+                )
+              : Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 40, bottom: 30),
+                      child: Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xff8BCAC0).withOpacity(0.5),
+                              blurRadius: 20,
+                              spreadRadius: 0,
+                              offset: Offset(0, 0),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.asset(
+                                        'icon/store_1.png',
+                                        height: 20,
+                                        width: 20,
+                                        fit: BoxFit.cover,
+                                        color: Color(0xff444444),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Менің себетім',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff444444),
+                                        fontFamily: 'OpenSans',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Себетте: ' + '${quantity}' ' тауар',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff444444),
+                                        fontFamily: 'OpenSans',
+                                      ),
+                                    ),
+                                    Text(
+                                      'Барлығы: ' +
+                                          '${formatter.format(totalPrice.toInt()) + ' ₸'}'
+                                              .replaceAll(',', ' '),
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff444444),
+                                        fontFamily: 'Montserrat',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    print('Continue');
+                                    Get.to(NewContinueStructura(
+                                      quantity: quantity,
+                                      totalprice: totalPrice,
+                                    ));
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff444444),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Жалғастыру',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                            fontFamily: 'OpenSans',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+          cartProvider.getCartList.isEmpty
+              ? Center(
+                  child: Text(
+                    '',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -202,6 +217,21 @@ class _NewBasketStructuraState extends State<NewBasketStructura> {
                               .collection('Менің себетім')
                               .doc(data.id)
                               .delete();
+
+                          Get.snackbar(
+                            "Себет",
+                            "Себеттег Өшірдім",
+                            icon: Icon(Icons.delete, color: Colors.white),
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Color(0xff444444),
+                            borderRadius: 5,
+                            margin: EdgeInsets.all(15),
+                            colorText: Colors.white,
+                            duration: Duration(seconds: 3),
+                            isDismissible: true,
+                            dismissDirection: DismissDirection.horizontal,
+                            forwardAnimationCurve: Curves.easeOutBack,
+                          );
                         },
                         basketquantityadd: () {
                           setState(() {
