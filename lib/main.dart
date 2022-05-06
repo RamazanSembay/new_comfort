@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:new_comfort/provider/cart_provider.dart';
 import 'package:new_comfort/provider/login_provider.dart';
+import 'package:new_comfort/views/admin/new_admin_structura.dart';
 import 'package:new_comfort/views/home_view.dart';
 import 'package:new_comfort/views/welcome_view.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,8 @@ class Application extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return HomeView();
+              // return HomeView();
+              return NewAdminStructura();
             } else {
               return WelcomeView();
             }
