@@ -41,8 +41,8 @@ class Application extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              // return HomeView();
-              return NewAdminStructura();
+              return HomeView();
+              // return NewAdminStructura();
             } else {
               return WelcomeView();
             }

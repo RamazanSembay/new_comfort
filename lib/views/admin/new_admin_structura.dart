@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:new_comfort/provider/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class NewAdminStructura extends StatefulWidget {
   @override
@@ -14,9 +17,8 @@ class _NewAdminStructuraState extends State<NewAdminStructura> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             // Басты бет
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 50, left: 20, right: 20),
               child: Text(
                 'Басты бет',
@@ -28,14 +30,14 @@ class _NewAdminStructuraState extends State<NewAdminStructura> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 10, left: 20, right: 20),
               child: Divider(
                 thickness: 2,
                 color: Color(0xffCCCCCC),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 20, left: 20, right: 20),
               child: Text(
                 'Бақылау тақтасы',
@@ -110,7 +112,7 @@ class _NewAdminStructuraState extends State<NewAdminStructura> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '16+',
+                              '100',
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -137,7 +139,7 @@ class _NewAdminStructuraState extends State<NewAdminStructura> {
             ),
 
             // Тіркелгендер
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 20, left: 20, right: 20),
               child: Text(
                 'Тіркелгендер',
@@ -149,7 +151,7 @@ class _NewAdminStructuraState extends State<NewAdminStructura> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 10, left: 20, right: 20),
               child: Divider(
                 thickness: 2,
@@ -221,7 +223,7 @@ class _NewAdminStructuraState extends State<NewAdminStructura> {
             ),
 
             // Тапсырыс бергендер
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 40, left: 20, right: 20),
               child: Text(
                 'Тапсырыс бергендер',
