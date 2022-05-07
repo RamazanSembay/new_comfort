@@ -1,13 +1,13 @@
-import 'package:new_comfort/provider/login_provider.dart';
-import 'package:new_comfort/views/admin/admin.dart';
-import 'package:new_comfort/views/register_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_comfort/views/admin/new_admin_structura.dart';
 import 'package:provider/provider.dart';
 
-class LoginView extends StatefulWidget {
+import '../../provider/login_provider.dart';
+
+class Admin extends StatefulWidget {
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<Admin> createState() => _AdminState();
 }
 
 TextEditingController email = TextEditingController();
@@ -17,7 +17,7 @@ String p =
 RegExp regExp = new RegExp(p);
 bool obserText = true;
 
-class _LoginViewState extends State<LoginView> {
+class _AdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
     LoginProvider loginProvider = Provider.of<LoginProvider>(context);
@@ -72,7 +72,7 @@ class _LoginViewState extends State<LoginView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Comfort Жүйесіне\nКіріңіз',
+                          'Админ Жүйесіне\nКіру',
                           style: TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.w700,
@@ -80,67 +80,10 @@ class _LoginViewState extends State<LoginView> {
                             fontFamily: 'Montserrat',
                           ),
                         ),
-                        SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Text(
-                              'жаңадан тіркелу үшін / ',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffAAAAAA),
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(RegisterView());
-                              },
-                              child: Text(
-                                'Тіркелу',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff444444),
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Text(
-                              'басқару үшін / ',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffAAAAAA),
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(Admin());
-                              },
-                              child: Text(
-                                'Админ',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff444444),
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
@@ -233,11 +176,14 @@ class _LoginViewState extends State<LoginView> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
                     onTap: () {
-                      loginProvider.loginValidation(
-                        email: email,
-                        password: password,
-                        context: context,
-                      );
+                      if (email.text == 'Admin' || password.text == '123') {
+                        Get.to(NewAdminStructura());
+                      }
+                      // loginProvider.loginValidation(
+                      //   email: email,
+                      //   password: password,
+                      //   context: context,
+                      // );
                     },
                     child: Container(
                       height: 68,

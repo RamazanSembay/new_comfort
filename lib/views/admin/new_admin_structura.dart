@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_comfort/views/admin/info_admin.dart';
+import 'package:new_comfort/views/login_view.dart';
 
 class NewAdminStructura extends StatefulWidget {
   @override
@@ -43,18 +45,56 @@ class Home_Page extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Басты бет
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(top: 50, left: 20, right: 20),
-          child: Text(
-            'Басты бет',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Color(0xff444444),
-              fontFamily: 'OpenSans',
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Басты бет',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff444444),
+                  fontFamily: 'OpenSans',
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                  Get.to(LoginView());
+                },
+                child: Container(
+                  height: 40,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.red,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Шығу',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                          fontFamily: 'OpenSans',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
+
         const Padding(
           padding: EdgeInsets.only(top: 10, left: 20, right: 20),
           child: Divider(
