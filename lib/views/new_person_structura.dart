@@ -341,6 +341,8 @@ class _NewPersonStructuraState extends State<NewPersonStructura> {
                   onTap: () {
                     FirebaseAuth.instance.signOut();
                     Get.to(LoginView());
+                    email.text = '';
+                    password.text = '';
                   },
                   child: Container(
                     height: 60,

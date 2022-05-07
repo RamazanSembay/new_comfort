@@ -95,6 +95,8 @@ class _LoginViewState extends State<LoginView> {
                             GestureDetector(
                               onTap: () {
                                 Get.to(RegisterView());
+                                email.text = '';
+                                password.text = '';
                               },
                               child: Text(
                                 'Тіркелу',
@@ -123,6 +125,8 @@ class _LoginViewState extends State<LoginView> {
                             GestureDetector(
                               onTap: () {
                                 Get.to(Admin());
+                                email.text = '';
+                                password.text = '';
                               },
                               child: Text(
                                 'Админ',
@@ -238,6 +242,8 @@ class _LoginViewState extends State<LoginView> {
                         password: password,
                         context: context,
                       );
+                      email.text = '';
+                      password.text = '';
                     },
                     child: Container(
                       height: 68,

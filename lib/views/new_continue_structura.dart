@@ -274,29 +274,38 @@ class _NewContinueStructuraState extends State<NewContinueStructura> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Image(
-                                image: NetworkImage(
-                                  data.image,
-                                ),
-                                width: 50,
-                                fit: BoxFit.fitHeight,
-                              ),
-                              Text(
-                                data.name,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff444444),
-                                  fontFamily: 'OpenSans',
+                              Expanded(
+                                child: Image(
+                                  image: NetworkImage(
+                                    data.image,
+                                  ),
+                                  width: 50,
+                                  fit: BoxFit.fitHeight,
                                 ),
                               ),
-                              Text(
-                                data.quantity.toString() + 'дана',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff444444),
-                                  fontFamily: 'OpenSans',
+                              SizedBox(width: 20),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  data.name,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff444444),
+                                    fontFamily: 'OpenSans',
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 80),
+                              Expanded(
+                                child: Text(
+                                  data.quantity.toString() + 'дана',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff444444),
+                                    fontFamily: 'OpenSans',
+                                  ),
                                 ),
                               ),
                             ],

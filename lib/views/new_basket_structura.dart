@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
@@ -41,17 +42,7 @@ class _NewBasketStructuraState extends State<NewBasketStructura> {
         physics: BouncingScrollPhysics(),
         children: [
           cartProvider.getCartList.isEmpty
-              ? Center(
-                  child: Text(
-                    'Жоқ',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xff444444),
-                      fontFamily: 'OpenSans',
-                    ),
-                  ),
-                )
+              ? Container()
               : Column(
                   children: [
                     Padding(
@@ -173,15 +164,28 @@ class _NewBasketStructuraState extends State<NewBasketStructura> {
                   ],
                 ),
           cartProvider.getCartList.isEmpty
-              ? Center(
-                  child: Text(
-                    '',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xff444444),
-                      fontFamily: 'OpenSans',
-                    ),
+              ? Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    top: 40,
+                  ),
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
+                        'images/cart_empty.svg',
+                        width: 150,
+                      ),
+                      SizedBox(height: 25),
+                      Text(
+                        'Себетке ешнарсе салған жоқсыз',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color(0xff444444),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                 )
               : Container(

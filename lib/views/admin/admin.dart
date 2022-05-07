@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:new_comfort/views/admin/new_admin_structura.dart';
 import 'package:provider/provider.dart';
@@ -32,32 +33,62 @@ class _AdminState extends State<Admin> {
               children: [
                 Column(
                   children: [
+                    SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        height: 80,
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image(
-                              image: AssetImage('images/icon.png'),
-                              width: 20,
-                              height: 30,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                              email.text = '';
+                              password.text = '';
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.arrow_back,
+                                  color: Color(0xff444444),
+                                  size: 24,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Артқа'.toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff444444),
+                                    fontFamily: 'Montserrat',
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 10),
-                            Text(
-                              'Кіру'.toUpperCase(),
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff444444),
-                                fontFamily: 'Montserrat',
+                          ),
+                          SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: AssetImage('images/icon.png'),
+                                width: 20,
+                                height: 30,
                               ),
-                            ),
-                          ],
-                        ),
+                              SizedBox(width: 10),
+                              Text(
+                                'Кіру'.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xff444444),
+                                  fontFamily: 'Montserrat',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ],

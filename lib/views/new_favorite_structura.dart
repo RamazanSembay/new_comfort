@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
@@ -81,112 +82,129 @@ class _NewFavoriteStructuraState extends State<NewFavoriteStructura> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 20, right: 20, bottom: 15),
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('Маған ұнағандар')
-                      .doc(FirebaseAuth.instance.currentUser.uid)
-                      .collection('Маған ұнағандар')
-                      .snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Something went wrong');
-                    }
+                child: Expanded(
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('Маған ұнағандар')
+                        .doc(FirebaseAuth.instance.currentUser.uid)
+                        .collection('Маған ұнағандар')
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Something went wrong');
+                      }
 
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 40),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
 
-                    return snapshot.data.docs.isEmpty
-                        ? Center(
-                            child: Text(
-                              'Жоқ',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff444444),
-                                fontFamily: 'OpenSans',
+                      return snapshot.data.docs.isEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                                top: 40,
                               ),
-                            ),
-                          )
-                        : Container(
-                            height: MediaQuery.of(context).size.height,
-                            width: double.infinity,
-                            child: ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              itemCount: snapshot.data.docs.length,
-                              itemBuilder: (context, index) {
-                                var data = snapshot.data.docs[index];
-                                return FavoriteProduct(
-                                  name: data['Название'],
-                                  image: data['Картинка'],
-                                  price: data['Цена'],
-                                  favoriteadd: () {
-                                    FirebaseFirestore.instance
-                                        .collection('Менің себетім')
-                                        .doc(FirebaseAuth
-                                            .instance.currentUser.uid)
-                                        .collection('Менің себетім')
-                                        .doc(data.id)
-                                        .set({
-                                      'Id': data.id,
-                                      'Название': data['Название'],
-                                      'Картинка': data['Картинка'],
-                                      'Цена': data['Цена'],
-                                      'Модель': data['Модель'],
-                                      'Количество': 1
-                                    });
-                                    Get.snackbar(
-                                      "Себет",
-                                      "Себетке салдым",
-                                      icon:
-                                          Icon(Icons.send, color: Colors.white),
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: Color(0xff444444),
-                                      borderRadius: 5,
-                                      margin: EdgeInsets.all(15),
-                                      colorText: Colors.white,
-                                      duration: Duration(seconds: 3),
-                                      isDismissible: true,
-                                      dismissDirection:
-                                          DismissDirection.horizontal,
-                                      forwardAnimationCurve: Curves.easeOutBack,
-                                    );
-                                  },
-                                  favoritedelete: () {
-                                    FirebaseFirestore.instance
-                                        .collection('Маған ұнағандар')
-                                        .doc(FirebaseAuth
-                                            .instance.currentUser.uid)
-                                        .collection('Маған ұнағандар')
-                                        .doc(data.id)
-                                        .delete();
+                              child: Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    'images/cart_empty.svg',
+                                    width: 150,
+                                  ),
+                                  SizedBox(height: 25),
+                                  Text(
+                                    'Ұнаған заттарыңызды салған жоқсыз!',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Color(0xff444444),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(
+                              height: MediaQuery.of(context).size.height,
+                              width: double.infinity,
+                              child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                itemCount: snapshot.data.docs.length,
+                                itemBuilder: (context, index) {
+                                  var data = snapshot.data.docs[index];
+                                  return FavoriteProduct(
+                                    name: data['Название'],
+                                    image: data['Картинка'],
+                                    price: data['Цена'],
+                                    favoriteadd: () {
+                                      FirebaseFirestore.instance
+                                          .collection('Менің себетім')
+                                          .doc(FirebaseAuth
+                                              .instance.currentUser.uid)
+                                          .collection('Менің себетім')
+                                          .doc(data.id)
+                                          .set({
+                                        'Id': data.id,
+                                        'Название': data['Название'],
+                                        'Картинка': data['Картинка'],
+                                        'Цена': data['Цена'],
+                                        'Модель': data['Модель'],
+                                        'Количество': 1
+                                      });
+                                      Get.snackbar(
+                                        "Себет",
+                                        "Себетке салдым",
+                                        icon: Icon(Icons.send,
+                                            color: Colors.white),
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Color(0xff444444),
+                                        borderRadius: 5,
+                                        margin: EdgeInsets.all(15),
+                                        colorText: Colors.white,
+                                        duration: Duration(seconds: 3),
+                                        isDismissible: true,
+                                        dismissDirection:
+                                            DismissDirection.horizontal,
+                                        forwardAnimationCurve:
+                                            Curves.easeOutBack,
+                                      );
+                                    },
+                                    favoritedelete: () {
+                                      FirebaseFirestore.instance
+                                          .collection('Маған ұнағандар')
+                                          .doc(FirebaseAuth
+                                              .instance.currentUser.uid)
+                                          .collection('Маған ұнағандар')
+                                          .doc(data.id)
+                                          .delete();
 
-                                    Get.snackbar(
-                                      "Ұнаған",
-                                      "Өшірдім",
-                                      icon:
-                                          Icon(Icons.send, color: Colors.white),
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: Color(0xff444444),
-                                      borderRadius: 5,
-                                      margin: EdgeInsets.all(15),
-                                      colorText: Colors.white,
-                                      duration: Duration(seconds: 3),
-                                      isDismissible: true,
-                                      dismissDirection:
-                                          DismissDirection.horizontal,
-                                      forwardAnimationCurve: Curves.easeOutBack,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          );
-                  },
+                                      Get.snackbar(
+                                        "Ұнаған",
+                                        "Өшірдім",
+                                        icon: Icon(Icons.send,
+                                            color: Colors.white),
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Color(0xff444444),
+                                        borderRadius: 5,
+                                        margin: EdgeInsets.all(15),
+                                        colorText: Colors.white,
+                                        duration: Duration(seconds: 3),
+                                        isDismissible: true,
+                                        dismissDirection:
+                                            DismissDirection.horizontal,
+                                        forwardAnimationCurve:
+                                            Curves.easeOutBack,
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            );
+                    },
+                  ),
                 ),
               ),
             ],

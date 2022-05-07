@@ -46,6 +46,8 @@ class LoginProvider with ChangeNotifier {
               email: email.text,
               password: password.text,
             );
+            email.text = '';
+            password.text = '';
             Get.to(HomeView());
           } on FirebaseAuthException catch (e) {
             if (e.code == "week-password") {

@@ -151,13 +151,6 @@ class InfoAdmin extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            height: 50,
-            width: 250,
-            decoration: BoxDecoration(
-              color: Color(0xff444444),
-            ),
-          ),
           SizedBox(height: 40),
         ],
       ),
