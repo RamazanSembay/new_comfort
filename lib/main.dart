@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:new_comfort/provider/admin_login_provider.dart';
 import 'package:new_comfort/provider/cart_provider.dart';
 import 'package:new_comfort/provider/login_provider.dart';
 import 'package:new_comfort/views/admin/new_admin_structura.dart';
@@ -31,6 +32,9 @@ class Application extends StatelessWidget {
         ChangeNotifierProvider<CartProvider>(
           create: (context) => (CartProvider()),
         ),
+        ChangeNotifierProvider<AdminLoginProvider>(
+          create: (context) => (AdminLoginProvider()),
+        ),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
@@ -41,8 +45,9 @@ class Application extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return HomeView();
-              // return NewAdminStructura();
+              // return WelcomeView();
+              // return HomeView();
+              return NewAdminStructura();
             } else {
               return WelcomeView();
             }

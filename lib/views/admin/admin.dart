@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:new_comfort/provider/admin_login_provider.dart';
 import 'package:new_comfort/views/admin/new_admin_structura.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,8 @@ bool obserText = true;
 class _AdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
-    LoginProvider loginProvider = Provider.of<LoginProvider>(context);
+    AdminLoginProvider adminLoginProvider =
+        Provider.of<AdminLoginProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -207,14 +209,11 @@ class _AdminState extends State<Admin> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
                     onTap: () {
-                      if (email.text == 'Admin' || password.text == '123') {
-                        Get.to(NewAdminStructura());
-                      }
-                      // loginProvider.loginValidation(
-                      //   email: email,
-                      //   password: password,
-                      //   context: context,
-                      // );
+                      adminLoginProvider.adminLoginValidation(
+                        email: email,
+                        password: password,
+                        context: context,
+                      );
                     },
                     child: Container(
                       height: 68,

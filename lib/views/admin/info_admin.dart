@@ -246,7 +246,6 @@ class List extends StatelessWidget {
                             .collection('Менің себетім')
                             .doc(data.id)
                             .delete();
-                        print(data['Id']);
                       },
                       child: Icon(
                         Icons.delete,
