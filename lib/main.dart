@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:new_comfort/provider/admin_login_provider.dart';
 import 'package:new_comfort/provider/cart_provider.dart';
+import 'package:new_comfort/provider/favorite_provider.dart';
 import 'package:new_comfort/provider/login_provider.dart';
 import 'package:new_comfort/views/admin/new_admin_structura.dart';
 import 'package:new_comfort/views/home_view.dart';
@@ -35,6 +36,9 @@ class Application extends StatelessWidget {
         ChangeNotifierProvider<AdminLoginProvider>(
           create: (context) => (AdminLoginProvider()),
         ),
+        ChangeNotifierProvider<FavoriteProvider>(
+          create: (context) => (FavoriteProvider()),
+        ),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
@@ -46,8 +50,8 @@ class Application extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               // return WelcomeView();
-              // return HomeView();
-              return NewAdminStructura();
+              return HomeView();
+              // return NewAdminStructura();
             } else {
               return WelcomeView();
             }

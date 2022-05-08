@@ -111,35 +111,35 @@ class _LoginViewState extends State<LoginView> {
                           ],
                         ),
                         SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Text(
-                              'басқару үшін / ',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffAAAAAA),
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(Admin());
-                                email.text = '';
-                                password.text = '';
-                              },
-                              child: Text(
-                                'Админ',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff444444),
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Text(
+                        //       'басқару үшін / ',
+                        //       style: TextStyle(
+                        //         fontSize: 20,
+                        //         fontWeight: FontWeight.w600,
+                        //         color: Color(0xffAAAAAA),
+                        //         fontFamily: 'Montserrat',
+                        //       ),
+                        //     ),
+                        //     GestureDetector(
+                        //       onTap: () {
+                        //         Get.to(Admin());
+                        //         email.text = '';
+                        //         password.text = '';
+                        //       },
+                        //       child: Text(
+                        //         'Админ',
+                        //         style: TextStyle(
+                        //           fontSize: 20,
+                        //           fontWeight: FontWeight.w600,
+                        //           color: Color(0xff444444),
+                        //           fontFamily: 'Montserrat',
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),

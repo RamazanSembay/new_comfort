@@ -1,27 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CartModel {
+class FavoriteModel {
   final String id;
   final String name;
   final String image;
   final int price;
-  final int quantity;
+  final String model;
 
-  CartModel({
+  FavoriteModel({
     this.id,
     this.name,
     this.image,
     this.price,
-    this.quantity,
+    this.model,
   });
 
-  factory CartModel.fromDocument(QueryDocumentSnapshot doc) {
-    return CartModel(
+  factory FavoriteModel.fromDocument(QueryDocumentSnapshot doc) {
+    return FavoriteModel(
       id: doc["Id"],
       name: doc["Название"],
       image: doc["Картинка"],
       price: doc["Цена"],
-      quantity: doc["Количество"],
+      model: doc["Модель"],
     );
   }
 }

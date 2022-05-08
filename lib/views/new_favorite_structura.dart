@@ -5,8 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
+import 'package:new_comfort/provider/favorite_provider.dart';
+import 'package:provider/provider.dart';
 
 class NewFavoriteStructura extends StatefulWidget {
+  final String id;
+
+  const NewFavoriteStructura({Key key, this.id}) : super(key: key);
   @override
   State<NewFavoriteStructura> createState() => _NewFavoriteStructuraState();
 }
@@ -14,6 +19,38 @@ class NewFavoriteStructura extends StatefulWidget {
 class _NewFavoriteStructuraState extends State<NewFavoriteStructura> {
   @override
   Widget build(BuildContext context) {
+    FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
+    favoriteProvider.getFavoriteData();
+
+    if (favoriteProvider.getFavoriteList.isEmpty) {
+      setState(() {
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 40,
+          ),
+          child: Column(
+            children: [
+              SvgPicture.asset(
+                'images/cart_empty.svg',
+                width: 150,
+              ),
+              SizedBox(height: 25),
+              Text(
+                'Ұнаған заттарыңызды салған жоқсыз!',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Color(0xff444444),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        );
+      });
+    }
+
     var formatter = NumberFormat('#,###');
 
     return Container(
@@ -22,191 +59,304 @@ class _NewFavoriteStructuraState extends State<NewFavoriteStructura> {
         children: [
           Column(
             children: [
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 40, bottom: 20),
-                child: Container(
-                  height: 60,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xff8BCAC0).withOpacity(0.5),
-                        blurRadius: 20,
-                        spreadRadius: 0,
-                        offset: Offset(0, 0),
+              favoriteProvider.getFavoriteList.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                        top: 40,
                       ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Container(
-                      height: double.infinity,
-                      width: double.infinity,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  'icon/favorite_1.png',
-                                  height: 20,
-                                  width: 20,
-                                  fit: BoxFit.cover,
-                                  color: Color(0xff444444),
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                'Маған ұнағандар',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff444444),
-                                  fontFamily: 'OpenSans',
-                                ),
-                              ),
-                            ],
+                          SvgPicture.asset(
+                            'images/cart_empty.svg',
+                            width: 150,
+                          ),
+                          SizedBox(height: 25),
+                          Text(
+                            'Ұнаған заттарыңызды салған жоқсыз!',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Color(0xff444444),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 20, right: 20, bottom: 15),
-                child: Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('Маған ұнағандар')
-                        .doc(FirebaseAuth.instance.currentUser.uid)
-                        .collection('Маған ұнағандар')
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Something went wrong');
-                      }
-
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      }
-
-                      return snapshot.data.docs.isEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                                top: 40,
-                              ),
-                              child: Column(
-                                children: [
-                                  SvgPicture.asset(
-                                    'images/cart_empty.svg',
-                                    width: 150,
-                                  ),
-                                  SizedBox(height: 25),
-                                  Text(
-                                    'Ұнаған заттарыңызды салған жоқсыз!',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Color(0xff444444),
-                                      fontWeight: FontWeight.w600,
+                    )
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 40, bottom: 20),
+                      child: Container(
+                        height: 60,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xff8BCAC0).withOpacity(0.5),
+                              blurRadius: 20,
+                              spreadRadius: 0,
+                              offset: Offset(0, 0),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.asset(
+                                        'icon/favorite_1.png',
+                                        height: 20,
+                                        width: 20,
+                                        fit: BoxFit.cover,
+                                        color: Color(0xff444444),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : Container(
-                              height: MediaQuery.of(context).size.height,
-                              width: double.infinity,
-                              child: ListView.builder(
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                itemCount: snapshot.data.docs.length,
-                                itemBuilder: (context, index) {
-                                  var data = snapshot.data.docs[index];
-                                  return FavoriteProduct(
-                                    name: data['Название'],
-                                    image: data['Картинка'],
-                                    price: data['Цена'],
-                                    favoriteadd: () {
-                                      FirebaseFirestore.instance
-                                          .collection('Менің себетім')
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser.uid)
-                                          .collection('Менің себетім')
-                                          .doc(data.id)
-                                          .set({
-                                        'Id': data.id,
-                                        'Название': data['Название'],
-                                        'Картинка': data['Картинка'],
-                                        'Цена': data['Цена'],
-                                        'Модель': data['Модель'],
-                                        'Количество': 1
-                                      });
-                                      Get.snackbar(
-                                        "Себет",
-                                        "Себетке салдым",
-                                        icon: Icon(Icons.send,
-                                            color: Colors.white),
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Color(0xff444444),
-                                        borderRadius: 5,
-                                        margin: EdgeInsets.all(15),
-                                        colorText: Colors.white,
-                                        duration: Duration(seconds: 3),
-                                        isDismissible: true,
-                                        dismissDirection:
-                                            DismissDirection.horizontal,
-                                        forwardAnimationCurve:
-                                            Curves.easeOutBack,
-                                      );
-                                    },
-                                    favoritedelete: () {
-                                      FirebaseFirestore.instance
-                                          .collection('Маған ұнағандар')
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser.uid)
-                                          .collection('Маған ұнағандар')
-                                          .doc(data.id)
-                                          .delete();
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Маған ұнағандар',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff444444),
+                                        fontFamily: 'OpenSans',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: double.infinity,
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: favoriteProvider.getFavoriteList.length,
+                    itemBuilder: (context, index) {
+                      var data = favoriteProvider.favoriteList[index];
 
-                                      Get.snackbar(
-                                        "Ұнаған",
-                                        "Өшірдім",
-                                        icon: Icon(Icons.send,
-                                            color: Colors.white),
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Color(0xff444444),
-                                        borderRadius: 5,
-                                        margin: EdgeInsets.all(15),
-                                        colorText: Colors.white,
-                                        duration: Duration(seconds: 3),
-                                        isDismissible: true,
-                                        dismissDirection:
-                                            DismissDirection.horizontal,
-                                        forwardAnimationCurve:
-                                            Curves.easeOutBack,
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
+                      return Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          itemCount: favoriteProvider.getFavoriteList.length,
+                          itemBuilder: (context, index) {
+                            var data = favoriteProvider.favoriteList[index];
+                            return FavoriteProduct(
+                              name: data.name,
+                              image: data.image,
+                              price: data.price,
+                              favoriteadd: () {
+                                FirebaseFirestore.instance
+                                    .collection('Менің себетім')
+                                    .doc(FirebaseAuth.instance.currentUser.uid)
+                                    .collection('Менің себетім')
+                                    .doc(data.id)
+                                    .set({
+                                  'Id': data.id,
+                                  'Название': data.name,
+                                  'Картинка': data.image,
+                                  'Цена': data.price,
+                                  'Модель': data.model,
+                                  'Количество': 1
+                                });
+                                Get.snackbar(
+                                  "Себет",
+                                  "Себетке салдым",
+                                  icon: Icon(Icons.send, color: Colors.white),
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: Color(0xff444444),
+                                  borderRadius: 5,
+                                  margin: EdgeInsets.all(15),
+                                  colorText: Colors.white,
+                                  duration: Duration(seconds: 3),
+                                  isDismissible: true,
+                                  dismissDirection: DismissDirection.horizontal,
+                                  forwardAnimationCurve: Curves.easeOutBack,
+                                );
+                              },
+                              favoritedelete: () {
+                                FirebaseFirestore.instance
+                                    .collection('Маған ұнағандар')
+                                    .doc(FirebaseAuth.instance.currentUser.uid)
+                                    .collection('Маған ұнағандар')
+                                    .doc(data.id)
+                                    .delete();
+
+                                Get.snackbar(
+                                  "Ұнаған",
+                                  "Өшірдім",
+                                  icon: Icon(Icons.send, color: Colors.white),
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: Color(0xff444444),
+                                  borderRadius: 5,
+                                  margin: EdgeInsets.all(15),
+                                  colorText: Colors.white,
+                                  duration: Duration(seconds: 3),
+                                  isDismissible: true,
+                                  dismissDirection: DismissDirection.horizontal,
+                                  forwardAnimationCurve: Curves.easeOutBack,
+                                );
+                              },
                             );
+                          },
+                        ),
+                      );
                     },
                   ),
                 ),
               ),
+              // Padding(
+              //   padding: EdgeInsets.only(left: 20, right: 20, bottom: 15),
+              //   child: Expanded(
+              //     child: StreamBuilder<QuerySnapshot>(
+              //       stream: FirebaseFirestore.instance
+              //           .collection('Маған ұнағандар')
+              //           .doc(FirebaseAuth.instance.currentUser.uid)
+              //           .collection('Маған ұнағандар')
+              //           .snapshots(),
+              //       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              //         if (snapshot.hasError) {
+              //           return Text('Something went wrong');
+              //         }
+
+              //         if (snapshot.connectionState == ConnectionState.waiting) {
+              //           return Padding(
+              //             padding: const EdgeInsets.symmetric(horizontal: 40),
+              //             child: Center(child: CircularProgressIndicator()),
+              //           );
+              //         }
+
+              //         return snapshot.data.docs.isEmpty
+              //             ? Padding(
+              //                 padding: const EdgeInsets.only(
+              //                   left: 20,
+              //                   right: 20,
+              //                   top: 40,
+              //                 ),
+              //                 child: Column(
+              //                   children: [
+              //                     SvgPicture.asset(
+              //                       'images/cart_empty.svg',
+              //                       width: 150,
+              //                     ),
+              //                     SizedBox(height: 25),
+              //                     Text(
+              //                       'Ұнаған заттарыңызды салған жоқсыз!',
+              //                       style: TextStyle(
+              //                         fontSize: 15,
+              //                         color: Color(0xff444444),
+              //                         fontWeight: FontWeight.w600,
+              //                       ),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               )
+              //             : Container(
+              //                 height: MediaQuery.of(context).size.height,
+              //                 width: double.infinity,
+              //                 child: ListView.builder(
+              //                   shrinkWrap: true,
+              //                   physics: BouncingScrollPhysics(),
+              //                   scrollDirection: Axis.vertical,
+              //                   itemCount: snapshot.data.docs.length,
+              //                   itemBuilder: (context, index) {
+              //                     var data = snapshot.data.docs[index];
+              //                     return FavoriteProduct(
+              //                       name: data['Название'],
+              //                       image: data['Картинка'],
+              //                       price: data['Цена'],
+              //                       favoriteadd: () {
+              //                         FirebaseFirestore.instance
+              //                             .collection('Менің себетім')
+              //                             .doc(FirebaseAuth
+              //                                 .instance.currentUser.uid)
+              //                             .collection('Менің себетім')
+              //                             .doc(data.id)
+              //                             .set({
+              //                           'Id': data.id,
+              //                           'Название': data['Название'],
+              //                           'Картинка': data['Картинка'],
+              //                           'Цена': data['Цена'],
+              //                           'Модель': data['Модель'],
+              //                           'Количество': 1
+              //                         });
+              //                         Get.snackbar(
+              //                           "Себет",
+              //                           "Себетке салдым",
+              //                           icon: Icon(Icons.send,
+              //                               color: Colors.white),
+              //                           snackPosition: SnackPosition.TOP,
+              //                           backgroundColor: Color(0xff444444),
+              //                           borderRadius: 5,
+              //                           margin: EdgeInsets.all(15),
+              //                           colorText: Colors.white,
+              //                           duration: Duration(seconds: 3),
+              //                           isDismissible: true,
+              //                           dismissDirection:
+              //                               DismissDirection.horizontal,
+              //                           forwardAnimationCurve:
+              //                               Curves.easeOutBack,
+              //                         );
+              //                       },
+              //                       favoritedelete: () {
+              //                         FirebaseFirestore.instance
+              //                             .collection('Маған ұнағандар')
+              //                             .doc(FirebaseAuth
+              //                                 .instance.currentUser.uid)
+              //                             .collection('Маған ұнағандар')
+              //                             .doc(data.id)
+              //                             .delete();
+
+              //                         Get.snackbar(
+              //                           "Ұнаған",
+              //                           "Өшірдім",
+              //                           icon: Icon(Icons.send,
+              //                               color: Colors.white),
+              //                           snackPosition: SnackPosition.TOP,
+              //                           backgroundColor: Color(0xff444444),
+              //                           borderRadius: 5,
+              //                           margin: EdgeInsets.all(15),
+              //                           colorText: Colors.white,
+              //                           duration: Duration(seconds: 3),
+              //                           isDismissible: true,
+              //                           dismissDirection:
+              //                               DismissDirection.horizontal,
+              //                           forwardAnimationCurve:
+              //                               Curves.easeOutBack,
+              //                         );
+              //                       },
+              //                     );
+              //                   },
+              //                 ),
+              //               );
+              //       },
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ],
