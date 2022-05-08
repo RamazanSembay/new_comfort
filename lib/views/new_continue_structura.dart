@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_comfort/views/new_edit_address_structura.dart';
+import 'package:new_comfort/views/new_order_success_structura.dart';
 import 'package:new_comfort/views/new_person_structura.dart';
 
 import 'package:intl/intl.dart';
@@ -390,7 +391,7 @@ class _NewContinueStructuraState extends State<NewContinueStructura> {
                           "Тапсырыс",
                           "Тапсырысыңыз қабылданды",
                           icon: Icon(Icons.local_shipping, color: Colors.white),
-                          snackPosition: SnackPosition.BOTTOM,
+                          snackPosition: SnackPosition.TOP,
                           backgroundColor: Color(0xff444444),
                           borderRadius: 5,
                           margin: EdgeInsets.all(15),
@@ -400,6 +401,7 @@ class _NewContinueStructuraState extends State<NewContinueStructura> {
                           dismissDirection: DismissDirection.horizontal,
                           forwardAnimationCurve: Curves.easeOutBack,
                         );
+                        Get.to(NewOrderSuccessStructure());
                       },
                       child: Container(
                         height: 50,

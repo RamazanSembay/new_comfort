@@ -126,10 +126,12 @@ class _NewBasketStructuraState extends State<NewBasketStructura> {
                                 InkWell(
                                   onTap: () {
                                     print('Continue');
-                                    Get.to(NewContinueStructura(
-                                      quantity: quantity,
-                                      totalprice: totalPrice,
-                                    ));
+                                    Get.to(
+                                      NewContinueStructura(
+                                        quantity: quantity,
+                                        totalprice: totalPrice,
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     height: 50,
@@ -224,9 +226,9 @@ class _NewBasketStructuraState extends State<NewBasketStructura> {
 
                           Get.snackbar(
                             "Себет",
-                            "Себеттег Өшірдім",
+                            "Себеттен Өшірдім",
                             icon: Icon(Icons.delete, color: Colors.white),
-                            snackPosition: SnackPosition.BOTTOM,
+                            snackPosition: SnackPosition.TOP,
                             backgroundColor: Color(0xff444444),
                             borderRadius: 5,
                             margin: EdgeInsets.all(15),

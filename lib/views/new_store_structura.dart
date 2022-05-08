@@ -16,6 +16,18 @@ class NewStoreStructura extends StatefulWidget {
 }
 
 class _NewStoreStructuraState extends State<NewStoreStructura> {
+  String query = '';
+  var result;
+  searchFunction(query, searchList) {
+    result = searchList.where((element) {
+      return element["Название"].toUpperCase().contains(query) ||
+          element["Название"].toLowerCase().contains(query) ||
+          element["Название"].toUpperCase().contains(query) &&
+              element["Название"].toLowerCase().contains(query);
+    }).toList();
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     var formatter = NumberFormat('#,###');
@@ -104,6 +116,11 @@ class _NewStoreStructuraState extends State<NewStoreStructura> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  query = value;
+                                });
+                              },
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -149,34 +166,75 @@ class _NewStoreStructuraState extends State<NewStoreStructura> {
                       );
                     }
 
-                    return StaggeredGridView.countBuilder(
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-                      scrollDirection: Axis.vertical,
-                      itemCount: snapshot.data.docs.length,
-                      staggeredTileBuilder: (index) => StaggeredTile.fit(1),
-                      mainAxisSpacing: 15.0,
-                      crossAxisSpacing: 15.0,
-                      itemBuilder: (context, index) {
-                        var data = snapshot.data.docs[index];
-                        return AppleProduct(
-                          name: data['Название'],
-                          image: data['Картинка'],
-                          price: data['Цена'],
-                          onTap: () {
-                            Get.to(
-                              NewDetailStructura(
-                                id: data.id,
+                    return query == ''
+                        ? StaggeredGridView.countBuilder(
+                            shrinkWrap: true,
+                            crossAxisCount: 2,
+                            scrollDirection: Axis.vertical,
+                            itemCount: snapshot.data.docs.length,
+                            staggeredTileBuilder: (index) =>
+                                StaggeredTile.fit(1),
+                            mainAxisSpacing: 15.0,
+                            crossAxisSpacing: 15.0,
+                            itemBuilder: (context, index) {
+                              var varData =
+                                  searchFunction(query, snapshot.data.docs);
+
+                              var data = varData[index];
+
+                              return AppleProduct(
                                 name: data['Название'],
                                 image: data['Картинка'],
-                                brend: data['Модель'],
                                 price: data['Цена'],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    );
+                                onTap: () {
+                                  Get.to(
+                                    NewDetailStructura(
+                                      id: data.id,
+                                      name: data['Название'],
+                                      image: data['Картинка'],
+                                      brend: data['Модель'],
+                                      price: data['Цена'],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          )
+                        : StaggeredGridView.countBuilder(
+                            shrinkWrap: true,
+                            crossAxisCount: 2,
+                            scrollDirection: Axis.vertical,
+                            itemCount: result.length,
+                            staggeredTileBuilder: (index) =>
+                                StaggeredTile.fit(1),
+                            mainAxisSpacing: 15.0,
+                            crossAxisSpacing: 15.0,
+                            itemBuilder: (context, index) {
+                              var varData =
+                                  searchFunction(query, snapshot.data.docs);
+
+                              var data = varData[index];
+
+                              return result.isEmpty
+                                  ? Text('No')
+                                  : AppleProduct(
+                                      name: data['Название'],
+                                      image: data['Картинка'],
+                                      price: data['Цена'],
+                                      onTap: () {
+                                        Get.to(
+                                          NewDetailStructura(
+                                            id: data.id,
+                                            name: data['Название'],
+                                            image: data['Картинка'],
+                                            brend: data['Модель'],
+                                            price: data['Цена'],
+                                          ),
+                                        );
+                                      },
+                                    );
+                            },
+                          );
                   },
                 ),
               ),
