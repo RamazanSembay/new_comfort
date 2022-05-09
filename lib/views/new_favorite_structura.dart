@@ -145,20 +145,18 @@ class _NewFavoriteStructuraState extends State<NewFavoriteStructura> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: double.infinity,
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    itemCount: favoriteProvider.getFavoriteList.length,
-                    itemBuilder: (context, index) {
-                      var data = favoriteProvider.favoriteList[index];
-
-                      return Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: double.infinity,
-                        child: ListView.builder(
+                child: Expanded(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemCount: favoriteProvider.getFavoriteList.length,
+                      itemBuilder: (context, index) {
+                        var data = favoriteProvider.favoriteList[index];
+                
+                        return ListView.builder(
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.vertical,
@@ -205,7 +203,7 @@ class _NewFavoriteStructuraState extends State<NewFavoriteStructura> {
                                     .collection('Маған ұнағандар')
                                     .doc(data.id)
                                     .delete();
-
+                
                                 Get.snackbar(
                                   "Ұнаған",
                                   "Өшірдім",
@@ -223,9 +221,9 @@ class _NewFavoriteStructuraState extends State<NewFavoriteStructura> {
                               },
                             );
                           },
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
